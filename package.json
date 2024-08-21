@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "postinstall": "prisma generate",
     "start": "node ./src/bin/www",
     "start:dev": "nodemon ./src/bin/www",
     "seed": "node ./prisma/seed.js"
