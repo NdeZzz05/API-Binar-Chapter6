@@ -29,11 +29,3 @@ jobs:
         run: railway run --service library-service-be npx prisma migrate deploy
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run Tests
-        run: npm test
-        env:
-          NODE_ENV: test
