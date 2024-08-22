@@ -6,7 +6,9 @@
     "postinstall": "prisma generate",
     "start": "node ./src/bin/www",
     "start:dev": "nodemon ./src/bin/www",
-    "seed": "node ./prisma/seed.js"
+    "seed": "node ./prisma/seed.js",
+    "test": "jest",
+    "test:cov": "jest --coverage"
   },
   "dependencies": {
     "@prisma/client": "^5.18.0",
