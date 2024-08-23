@@ -7,6 +7,9 @@ Service API adalah backend service yang dibangun untuk mengelola authentication,
 ## Features
 
 - **Authorization**: Mengelola autentikasi, dan otorisasi.
+- **User**: Mengelola user, update user, update profile.
+- **Post**: Mengelola postingan content.
+- **Comment**: Menglola comment postingan content. (process)
 
 ## API Documentation
 
@@ -26,7 +29,7 @@ API ini di-deploy menggunakan Railway dan dapat diakses melalui link berikut:
 
 - Node.js (v14 atau lebih baru)
 - NPM atau Yarn
-- PostgreSQL & Prisma ORM (atau database lain yang didukung)
+- PostgreSQL & Prisma ORM
 
 ### Installation
 
@@ -46,8 +49,12 @@ API ini di-deploy menggunakan Railway dan dapat diakses melalui link berikut:
 3. **Buat file `.env`** dan tambahkan variabel environment yang dibutuhkan:
 
    ```env
+   PORT=3001
    DATABASE_URL=your_database_url
    JWT_SECRET=your_jwt_secret
+   PUBLIC_KEY_IMAGE_KIT=your_public_key_kit_image
+   PRIVATE_KEY_IMAGE_KIT=your_private_key_kit_image
+   URL_ENDPOINT_IMAGE_KIT=your_url_endpoint_kit_image
    ```
 
 4. **Jalankan migrasi database**:
@@ -67,11 +74,3 @@ API ini di-deploy menggunakan Railway dan dapat diakses melalui link berikut:
 ### Usage
 
 Setelah server berjalan, Anda bisa mulai mengakses endpoint API melalui tools seperti Postman atau melalui Swagger UI.
-
-## Environment Variables
-
-Berikut adalah variabel environment yang digunakan dalam proyek ini:
-
-- `DATABASE_URL`: URL koneksi ke database.
-- `JWT_SECRET`: Secret key untuk JWT token.
-- `PORT`: Port untuk menjalankan server (default: 3000).
