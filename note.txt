@@ -1,3 +1,0 @@
-Endpoint Post
-1. membuat query parameters untuk search dan filter
-
