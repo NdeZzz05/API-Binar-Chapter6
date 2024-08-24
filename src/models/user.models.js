@@ -41,7 +41,12 @@ const USER_MODELS = {
   updateUser: async (id, data) => {
     const result = await prisma.user.update({
       where: { id },
-      data,
+      data: {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        profile_picture: data.profile_picture,
+      },
     });
     return result;
   },

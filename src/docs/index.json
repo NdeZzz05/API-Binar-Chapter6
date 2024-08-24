@@ -21,6 +21,14 @@
     {
       "name": "users",
       "description": "Everything about users"
+    },
+    {
+      "name": "post",
+      "description": "Everything about post"
+    },
+    {
+      "name": "categories",
+      "description": "Everything about category"
     }
   ],
   "paths": {
@@ -282,9 +290,678 @@
           }
         }
       }
+    },
+    "/users": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Get all users",
+        "security": [
+          {
+            "BearerAuth": ["token", ""]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/basicResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/UserResponse"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Get user by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": ["token", ""]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/basicResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/UserResponseById"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["users"],
+        "summary": "Update user by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": ["username", "email", "password"]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": ["token", ""]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/basicResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/UserResponseById"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/posts": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Get user's posts by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": ["token", ""]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/basicResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/PostUserResponse"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post": {
+      "get": {
+        "tags": ["post"],
+        "summary": "Get all posts",
+        "security": [
+          {
+            "BearerAuth": ["token", ""]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/basicResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/GetPostResponse"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["post"],
+        "summary": "Create new post",
+        "security": [
+          {
+            "BearerAuth": ["token", ""]
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePostRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/basicResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CreatePostRequestResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/{id}": {
+      "get": {
+        "tags": ["post"],
+        "summary": "Get post by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": ["token", ""]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/basicResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/PostResponseById"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["post"],
+        "summary": "Update post by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePostRequest"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": ["token", ""]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/basicResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CreatePostRequestResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["post"],
+        "summary": "Delete post by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": ["token", ""]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/basicResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "schema": {
+                              "$ref": "#/components/schemas/CreatePostRequestResponse"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories": {
+      "post": {
+        "tags": ["categories"],
+        "summary": "Create new category",
+        "security": [
+          {
+            "BearerAuth": ["token", ""]
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostCategory"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/basicResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/PostCategoryResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["categories"],
+        "summary": "Get all categories",
+        "security": [
+          {
+            "BearerAuth": ["token", ""]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/basicResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/CategoryResponse"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/{id}": {
+      "get": {
+        "tags": ["categories"],
+        "summary": "Get category by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": ["token", ""]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/basicResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CategoryResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["categories"],
+        "summary": "Update category by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": ["token", ""]
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostCategory"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/basicResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/PostCategoryResponse"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["categories"],
+        "summary": "Delete category by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": ["token", ""]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/basicResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "afea45be-82ad-439f-861c-ba387a67349c"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Category"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "basicResponse": {
         "title": "basicResponse",
@@ -491,6 +1168,265 @@
           "role": {
             "type": "string",
             "example": "USER"
+          }
+        }
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "158610b-5098-467b-b45a-05fcfdcd1288"
+          },
+          "username": {
+            "type": "string",
+            "example": "bagus"
+          },
+          "email": {
+            "type": "string",
+            "example": "bagus@binar.co.id"
+          },
+          "role": {
+            "type": "string",
+            "example": "USER"
+          }
+        }
+      },
+      "UserResponseById": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "158610b-5098-467b-b45a-05fcfdcd1288"
+          },
+          "email": {
+            "type": "string",
+            "example": "bagus@binar.co.id"
+          },
+          "username": {
+            "type": "string",
+            "example": "bagus"
+          },
+          "password": {
+            "type": "string",
+            "example": "$2b$10$g7g7j6z9y9t1g51229.60$hJ6lX93p1bU4b8489384c15367976"
+          },
+          "profile_picture": {
+            "type": "string",
+            "example": "https://ik.imagekit.io/fernandes/binar-assets/1724253158686-Formal_2TRv23cB6.jpeg"
+          },
+          "role": {
+            "type": "string",
+            "example": "USER"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2024-08-22T14:56:23.424Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2024-08-22T14:56:23.424Z"
+          }
+        }
+      },
+      "UpdateUser": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "profile_picture": {
+            "type": "string"
+          }
+        }
+      },
+      "PostUserResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "8be639e7-c5bc-4c4c-85fe-045fa1bc6ecb"
+          },
+          "title": {
+            "type": "string",
+            "example": "Data PDSN Bocor"
+          },
+          "post_picture": {
+            "type": "string",
+            "example": "https://ik.imagekit.io/fernandes/binar-assets/1724253158686-Formal_2TRv23cB6.jpeg"
+          },
+          "content": {
+            "type": "string",
+            "example": "Data PDSN Bocor adalah data yang berisi informasi tentang kejadian yang terjadi di PDSN."
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2024-08-22T14:56:23.424Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2024-08-22T14:56:23.424Z"
+          },
+          "category": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "hiburan"
+              }
+            }
+          }
+        }
+      },
+      "CreatePostRequest": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "binary"
+          },
+          "title": {
+            "type": "string",
+            "example": ""
+          },
+          "content": {
+            "type": "string",
+            "example": ""
+          },
+          "author_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "category_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": ["file", "title", "content", "author_id", "category_id"]
+      },
+      "CreatePostRequestResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "8be639e7-c5bc-4c4c-85fe-045fa1bc6ecb"
+          },
+          "title": {
+            "type": "string",
+            "example": "Data PDSN Bocor"
+          },
+          "post_picture": {
+            "type": "string",
+            "example": "https://ik.imagekit.io/fernandes/binar-assets/1724253158686-Formal_2TRv23cB6.jpeg"
+          },
+          "content": {
+            "type": "string",
+            "example": "Data PDSN Bocor adalah data yang berisi informasi tentang kejadian yang terjadi di PDSN."
+          },
+          "author_id": {
+            "type": "string",
+            "example": "158610b-5098-467b-b45a-05fcfdcd1288"
+          },
+          "category_id": {
+            "type": "string",
+            "example": "158610b-5098-467b-b45a-05fcfdcd1288"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2024-08-22T14:56:23.424Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2024-08-22T14:56:23.424Z"
+          }
+        }
+      },
+      "GetPostResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "8be639e7-c5bc-4c4c-85fe-045fa1bc6ecb"
+          },
+          "title": {
+            "type": "string",
+            "example": "Data PDSN Bocor"
+          },
+          "post_picture": {
+            "type": "string",
+            "example": "https://ik.imagekit.io/fernandes/binar-assets/1724253158686-Formal_2TRv23cB6.jpeg"
+          },
+          "content": {
+            "type": "string",
+            "example": "Data PDSN Bocor adalah data yang berisi informasi tentang kejadian yang terjadi di PDSN."
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2024-08-22T14:56:23.424Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2024-08-22T14:56:23.424Z"
+          },
+          "author": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string",
+                "example": "bagus"
+              }
+            }
+          },
+          "category": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "hiburan"
+              }
+            }
+          }
+        }
+      },
+      "PostCategory": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "required": ["name"]
+      },
+      "PostCategoryResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "158610b-5098-467b-b45a-05fcfdcd1288"
+          },
+          "name": {
+            "type": "string",
+            "example": "hiburan"
+          }
+        }
+      },
+      "CategoryResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "158610b-5098-467b-b45a-05fcfdcd1288"
+          },
+          "name": {
+            "type": "string",
+            "example": "hiburan"
           }
         }
       }

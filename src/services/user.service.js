@@ -52,7 +52,6 @@ const USER_SERVICES = {
         ...body,
         profile_picture: imageUrl,
       };
-      console.log(datas);
 
       const result = await USER_MODELS.updateUser(id, datas);
       return result;

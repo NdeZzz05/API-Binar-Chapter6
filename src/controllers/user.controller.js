@@ -2,6 +2,8 @@ const upload = require("../config/storage");
 const imageKitConfig = require("../config/lib/imagekit");
 const USER_SERVICES = require("../services/user.service");
 const qr = require("node-qr-image");
+const USER_VALIDATION = require("../validation/user.validation");
+const { BadRequest } = require("../errors/customsErrors");
 
 const USER_CONTROLLER = {
   getAllUser: async (req, res, next) => {
@@ -42,9 +44,12 @@ const USER_CONTROLLER = {
   },
   updateUser: async (req, res, next) => {
     try {
+      const { error, value } = USER_VALIDATION.updateUser(req.body);
+      if (error) throw new BadRequest(error.details[0].message);
+
       const data = {
         file: req.file || null,
-        body: req.body,
+        body: value,
       };
 
       const result = await USER_SERVICES.updateUser(req.params.id, data);
